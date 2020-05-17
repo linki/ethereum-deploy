@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: slasher
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: slasher
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: slasher
+  policyTypes:
+  - Ingress
+  ingress:
+  # allow prometheus-to-sd to scrape the metrics endpoint
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus-to-sd
+    ports:
+    - protocol: TCP
+      port: 8082

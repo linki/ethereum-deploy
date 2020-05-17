@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: slasher
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: slasher
+spec:
+  selector:
+    app.kubernetes.io/name: slasher
+  ports:
+  - name: rpc
+    port: 5000
+    targetPort: rpc
+  - name: metrics
+    port: 8082
+    targetPort: metrics
