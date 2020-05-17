@@ -19,11 +19,11 @@ spec:
       port: 31300
     - protocol: UDP
       port: 31200
-  # allow ethstats to connect to rpc and metrics endpoints
+  # allow eth2stats to connect to rpc and metrics endpoints
   - from:
     - podSelector:
         matchLabels:
-          app.kubernetes.io/name: ethstats
+          app.kubernetes.io/name: eth2stats
     ports:
     - protocol: TCP
       port: 4000

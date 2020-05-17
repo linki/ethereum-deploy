@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: eth2stats
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: eth2stats
+spec:
+  serviceName: eth2stats
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: eth2stats
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: eth2stats
+    spec:
+      serviceAccountName: eth2stats
+      containers:
+      - name: eth2stats
+        image: docker.io/alethio/eth2stats-client:v0.0.7
+        args:
+        - run
+        - --eth2stats.node-name=AllYouCanStake.de
+        - --data.folder=/var/lib/eth2stats
+        - --eth2stats.addr=grpc.topaz.eth2stats.io:443
+        - --eth2stats.tls=true
+        - --beacon.type=prysm
+        - --beacon.addr=beacon-chain:4000
+        - --beacon.metrics-addr=http://beacon-chain:8080/metrics
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 20m
+            memory: 64Mi
+        volumeMounts:
+        - mountPath: /var/lib/eth2stats
+          name: data
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+      securityContext:
+        fsGroup: 65534
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      storageClassName: singlewriter-standard
+      accessModes:
+      - ReadWriteOnce
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 1Gi
