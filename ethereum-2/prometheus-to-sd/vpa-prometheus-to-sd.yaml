@@ -1,0 +1,14 @@
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: prometheus-to-sd
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: prometheus-to-sd
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: prometheus-to-sd
+  updatePolicy:
+    updateMode: Auto

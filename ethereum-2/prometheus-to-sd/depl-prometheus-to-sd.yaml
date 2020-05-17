@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-to-sd
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: prometheus-to-sd
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus-to-sd
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: prometheus-to-sd
+    spec:
+      serviceAccountName: prometheus-to-sd
+      containers:
+      - name: prometheus-to-sd
+        image: k8s.gcr.io/prometheus-to-sd:v0.9.2
+        ports:
+        - name: profiler
+          containerPort: 6060
+        command:
+          - /monitor
+          - --stackdriver-prefix=custom.googleapis.com
+          - --monitored-resource-type-prefix=k8s_
+          - --source=ethereum-beacon-chain:http://beacon-chain:8080/metrics?metricsPrefix=custom.googleapis.com
+          - --source=ethereum-slasher:http://slasher:8082/metrics?metricsPrefix=custom.googleapis.com
+          - --source=ethereum-validator:http://validator:8081/metrics?metricsPrefix=custom.googleapis.com
+          - --pod-id=$(POD_NAME)
+          - --namespace-id=$(POD_NAMESPACE)
+          - --delayed-shutdown-timeout=0s
+          # can probably be removed in v0.9.3
+          - --cluster-location=europe-west6-c
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 20m
+            memory: 64Mi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+      securityContext:
+        fsGroup: 65534
