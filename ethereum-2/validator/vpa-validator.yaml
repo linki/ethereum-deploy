@@ -1,0 +1,14 @@
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: validator
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: validator
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: validator
+  updatePolicy:
+    updateMode: Auto

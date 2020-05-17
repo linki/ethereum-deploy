@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: validator
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: validator
+spec:
+  selector:
+    app.kubernetes.io/name: validator
+  ports:
+  - name: metrics
+    port: 8081
+    targetPort: metrics

@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: validator
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: validator
+spec:
+  serviceName: validator
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: validator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: validator
+    spec:
+      serviceAccountName: validator
+      containers:
+      - name: validator
+        image: gcr.io/prysmaticlabs/prysm/validator:latest
+        args:
+        - --beacon-rpc-provider=beacon-chain:4000
+        - --keymanager=keystore
+        - --keymanageropts=/etc/ethereum/keymanageropts
+        - --datadir=/var/lib/validator
+        - --graffiti=AllYouCanStake.de
+        ports:
+        - name: metrics
+          containerPort: 8081
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /etc/ethereum
+          name: keystore
+          readOnly: true
+        - mountPath: /var/lib/validator
+          name: data
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: metrics
+          failureThreshold: 5
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /metrics
+            port: metrics
+          failureThreshold: 5
+          initialDelaySeconds: 5
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 30
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+      securityContext:
+        fsGroup: 65534
+      terminationGracePeriodSeconds: 300
+      volumes:
+      - name: keystore
+        secret:
+          secretName: keystore
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      storageClassName: singlewriter-standard
+      accessModes:
+      - ReadWriteOnce
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 1Gi
