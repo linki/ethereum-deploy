@@ -41,7 +41,7 @@ spec:
           name: data
         readinessProbe:
           httpGet:
-            path: /metrics
+            path: /healthz
             port: metrics
           failureThreshold: 5
           initialDelaySeconds: 5
@@ -50,7 +50,7 @@ spec:
           timeoutSeconds: 10
         livenessProbe:
           httpGet:
-            path: /metrics
+            path: /healthz
             port: metrics
           failureThreshold: 5
           initialDelaySeconds: 5
