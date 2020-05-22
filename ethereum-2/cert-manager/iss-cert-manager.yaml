@@ -1,0 +1,26 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: cert-manager
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+spec:
+  ca:
+    secretName: cert-manager-key-pair
+
+---
+
+apiVersion: k8s.linki.space/v1alpha1
+kind: EncryptedSecret
+metadata:
+  name: cert-manager-key-pair
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+spec:
+  provider: GCP
+  keyID: keyRings/ethereum-2/cryptoKeys/keystore
+  data:
+    tls.crt: CiQAOUELt9Q2D92B+JQ/NdfkNvKnzxwu7YHCXsVC27U67CdPoCMStAYqsQYKFAoMo8txLOgbf4YptZKREMK/58IOEv4FCvUFYXSc1HpZ7SeyiOoHW0S+0NQ9tkIVJ9riilevle+yQystHYY0wtvBCr8swNRSpBxGNypawNLJNOcHt1Q01zf9BC2MK+bWKbQxMriEaoSJg9jQndCLcTCgYqDzrDW4iIeADnzYP7rPczvkvLFNC1zoFNx9ERRaEOB9+8OMHSgAlf58Q+ZvXNfZ9gb+u8WZaNiM70L7R0lhWvPyFdkw43oiK33Y01AjMsUgmrFzWVkrLpQbBd0Ht6cUSPYnXPwiO+AVESI4/1yEs8/4q11RcTTryBthhwOK+FKjyou1VUu7KWjPGTqbg2RWgMNwhJwgT2h3649cJmVSJ4DzHkXZtpaOwSM2/CsOdx335zR7BbCw/PgueH2tXexyC/VtnX+PVzCT4nUBIQTDxP+9FVgei35tXiGPnsNJ/RejFgQEUnC/6EoZlhfHsPj5Qr1RdaMLwxYPBBzTiI+Jm/SbPeC0rLQJNAt3rkw1ffEDnQrPb5q9g1V3HI5hasOHGuoHONze8rrR/vwkRJo4/XufvPoT5f+OwWHDMadlvVs/oMhd1thlRcFQDGMtkmPsthRsIBY4xiwzistircpg77PLrzkRp26JtnrhXJHdaq01J7UB+klcXCHmVvmsxdUNAonHh9NYHihyCD1rR06aRSUn3GZEtwJZLDak0nfGNCvkerZefmMC6zZSaCbyDOpTeDtwkdZlshkVMsUdq+87/lc5IkI1HeX6jaZXnfs7uzZS0y/YivX3ppd29JR+4TEP619kyGkDf9AGcccAr3OfrIpKsKNFO9jMFV3mZQ7rgAQBTD9zRiL0yeWYD3vuz4FqM5HGobM/JmGxzsMWrQL0F5FQTu2mv30qF6goO19jsoAr3x0N3aPk8EPE0mf6UL0Woa1IdpxukAAphgEtBwE4giNtc6CGiCBN4ZJbagU5+iAAXaafQfdb19UFY49XKMLTuvFp3fP5nUJTgOTqlyQInmJdv6qFWLemq/Z8NGQn/i5jrHpi+W95HnCzIoctkBCm1JHXCxoYChDnpy3V+/FNSbj9oOp9gwjiEIuX1foN
+    tls.key: CiQAOUELtwetBGxMQmNdLBjnGUJhdR0mRbksb6ziLi4v1pfqmGcS6AIq5QIKFAoMx7NL1LqIdnf+ugwaEJbBnekJErICCqkCAGDTIlD9ia9YZxOT4RTDfroVtlNr0zBIO/YeF+EYsU00/iPVfx7kbAypXUMCeqK8MHpwlWNY3TCjWqy9TtT5cgnCADH17F3u7zZilp+ovQLyYlt4ijR8lU3SxKVDrPQX6RUidzgOCvaFUp9IsgggV7RgSpNGCc706ZCS0LwVM3sydoGy2Wsvcae2GNrFPAGxlVz3iTQJEYV0tZ9KNcUjS5g/ui6z6M3btsW1Fm0xc6MmkltmYQpTz9A453PL1eH7uHG6ij4icgqwxEd1sNXu6Q7jon5X9R1FIbBch1OF1sizSOT19yKFArMXw122UeeAg/uhLMmczHhPKBB4S+rOyJsbFZXMo7DWVFJWw+2QEVN0149U5UNA6EqJZVFpom7BdTKwkZn63NTAENPC3/sHGhgKEClntoDE9AZ8uL7au7v9AbQQqvml2Q4=
