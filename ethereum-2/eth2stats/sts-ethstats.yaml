@@ -18,7 +18,7 @@ spec:
       serviceAccountName: eth2stats
       containers:
       - name: eth2stats
-        image: docker.io/alethio/eth2stats-client:v0.0.7
+        image: quay.io/linki/eth2stats-client:tls-cert
         args:
         - run
         - --eth2stats.node-name=AllYouCanStake.de
@@ -27,6 +27,7 @@ spec:
         - --eth2stats.tls=true
         - --beacon.type=prysm
         - --beacon.addr=beacon-chain:4000
+        - --beacon.tls-cert=/etc/tls/ca.crt
         - --beacon.metrics-addr=http://beacon-chain:8080/metrics
         resources:
           requests:
@@ -36,6 +37,9 @@ spec:
             cpu: 20m
             memory: 64Mi
         volumeMounts:
+        - mountPath: /etc/tls
+          name: tls
+          readOnly: true
         - mountPath: /var/lib/eth2stats
           name: data
         securityContext:
@@ -46,6 +50,10 @@ spec:
             drop: ["ALL"]
       securityContext:
         fsGroup: 65534
+      volumes:
+      - name: tls
+        secret:
+          secretName: eth2stats-tls
   volumeClaimTemplates:
   - metadata:
       name: data

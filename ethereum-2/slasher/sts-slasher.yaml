@@ -21,6 +21,7 @@ spec:
         image: gcr.io/prysmaticlabs/prysm/slasher:latest
         args:
         - --beacon-rpc-provider=beacon-chain:4000
+        - --beacon-tls-cert=/etc/tls/ca.crt
         - --datadir=/var/lib/slasher
         # enabling this requires --enable-new-state-mgmt in beacon-chain
         - --disable-historical-detection
@@ -37,6 +38,9 @@ spec:
             cpu: 100m
             memory: 256Mi
         volumeMounts:
+        - mountPath: /etc/tls
+          name: tls
+          readOnly: true
         - mountPath: /var/lib/slasher
           name: data
         readinessProbe:
@@ -66,6 +70,10 @@ spec:
       securityContext:
         fsGroup: 65534
       terminationGracePeriodSeconds: 300
+      volumes:
+      - name: tls
+        secret:
+          secretName: slasher-tls
   volumeClaimTemplates:
   - metadata:
       name: data

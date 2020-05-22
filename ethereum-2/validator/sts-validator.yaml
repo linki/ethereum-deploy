@@ -21,6 +21,7 @@ spec:
         image: gcr.io/prysmaticlabs/prysm/validator:latest
         args:
         - --beacon-rpc-provider=beacon-chain:4000
+        - --tls-cert=/etc/tls/ca.crt
         - --keymanager=keystore
         - --keymanageropts=/etc/ethereum/keymanageropts
         - --datadir=/var/lib/validator
@@ -38,6 +39,9 @@ spec:
         volumeMounts:
         - mountPath: /etc/ethereum
           name: keystore
+          readOnly: true
+        - mountPath: /etc/tls
+          name: tls
           readOnly: true
         - mountPath: /var/lib/validator
           name: data
@@ -72,6 +76,9 @@ spec:
       - name: keystore
         secret:
           secretName: keystore
+      - name: tls
+        secret:
+          secretName: validator-tls
   volumeClaimTemplates:
   - metadata:
       name: data

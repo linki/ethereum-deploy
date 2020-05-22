@@ -25,6 +25,8 @@ spec:
         - --p2p-tcp-port=31300
         - --p2p-udp-port=31200
         - --rpc-host=$(POD_IP)
+        - --tls-key=/etc/tls/tls.key
+        - --tls-cert=/etc/tls/tls.crt
         env:
         - name: POD_IP
           valueFrom:
@@ -48,6 +50,9 @@ spec:
             cpu: 500m
             memory: 2Gi
         volumeMounts:
+        - mountPath: /etc/tls
+          name: tls
+          readOnly: true
         - mountPath: /var/lib/beacon-chain
           name: data
         readinessProbe:
@@ -77,6 +82,10 @@ spec:
       securityContext:
         fsGroup: 65534
       terminationGracePeriodSeconds: 300
+      volumes:
+      - name: tls
+        secret:
+          secretName: beacon-chain-tls
   volumeClaimTemplates:
   - metadata:
       name: data

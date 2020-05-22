@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: eth2stats-tls
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: eth2stats
+spec:
+  secretName: eth2stats-tls
+  dnsNames:
+  - eth2stats
+  issuerRef:
+    name: cert-manager

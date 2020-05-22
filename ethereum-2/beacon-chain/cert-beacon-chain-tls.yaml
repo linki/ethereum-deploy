@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: beacon-chain-tls
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: beacon-chain
+spec:
+  secretName: beacon-chain-tls
+  dnsNames:
+  - beacon-chain
+  issuerRef:
+    name: cert-manager
