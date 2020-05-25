@@ -24,7 +24,7 @@ spec:
         - --beacon-tls-cert=/etc/tls/ca.crt
         - --datadir=/var/lib/slasher
         # enabling this requires --enable-new-state-mgmt in beacon-chain
-        - --disable-historical-detection
+        # - --enable-historical-detection
         ports:
         - name: rpc
           containerPort: 5000
