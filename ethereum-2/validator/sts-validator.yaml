@@ -26,6 +26,9 @@ spec:
         - --keymanageropts=/etc/ethereum/keymanageropts
         - --datadir=/var/lib/validator
         - --graffiti=AllYouCanStake.de
+        - --enable-external-slasher-protection
+        - --slasher-rpc-provider=slasher:4002
+        - --slasher-tls-cert=/etc/tls/ca.crt
         ports:
         - name: metrics
           containerPort: 8081

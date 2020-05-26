@@ -27,6 +27,9 @@ spec:
         - --rpc-host=$(POD_IP)
         - --tls-key=/etc/tls/tls.key
         - --tls-cert=/etc/tls/tls.crt
+        - --enable-slasher
+        - --slasher-provider=slasher:4002
+        - --slasher-tls-cert=/etc/tls/ca.crt
         env:
         - name: POD_IP
           valueFrom:

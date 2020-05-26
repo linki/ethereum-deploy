@@ -12,6 +12,22 @@ spec:
   policyTypes:
   - Ingress
   ingress:
+  # allow the beacon chain to connect to the rpc endpoint
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: beacon-chain
+    ports:
+    - protocol: TCP
+      port: 4002
+  # allow the validator to connect to the rpc endpoint
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: validator
+    ports:
+    - protocol: TCP
+      port: 4002
   # allow prometheus-to-sd to scrape the metrics endpoint
   - from:
     - podSelector:

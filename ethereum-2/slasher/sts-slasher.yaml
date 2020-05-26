@@ -23,11 +23,13 @@ spec:
         - --beacon-rpc-provider=beacon-chain:4000
         - --beacon-tls-cert=/etc/tls/ca.crt
         - --datadir=/var/lib/slasher
+        - --tls-key=/etc/tls/tls.key
+        - --tls-cert=/etc/tls/tls.crt
         # enabling this requires --enable-new-state-mgmt in beacon-chain
         # - --enable-historical-detection
         ports:
         - name: rpc
-          containerPort: 5000
+          containerPort: 4002
         - name: metrics
           containerPort: 8082
         resources:

@@ -10,7 +10,7 @@ spec:
     app.kubernetes.io/name: slasher
   ports:
   - name: rpc
-    port: 5000
+    port: 4002
     targetPort: rpc
   - name: metrics
     port: 8082
