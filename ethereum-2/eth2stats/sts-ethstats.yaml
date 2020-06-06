@@ -58,7 +58,7 @@ spec:
   - metadata:
       name: data
     spec:
-      storageClassName: singlewriter-standard
+      storageClassName: standard-rwo
       accessModes:
       - ReadWriteOnce
       volumeMode: Filesystem
