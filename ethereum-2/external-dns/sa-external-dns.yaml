@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: external-dns
   annotations:
-    iam.gke.io/gcp-service-account: external-dns@linki-wanchain.iam.gserviceaccount.com
+    iam.gke.io/gcp-service-account: external-dns@allyoucanstake-dev.iam.gserviceaccount.com
 
 ---
 

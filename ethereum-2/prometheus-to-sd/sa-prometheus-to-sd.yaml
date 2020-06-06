@@ -6,5 +6,5 @@ metadata:
   labels:
     app.kubernetes.io/name: prometheus-to-sd
   annotations:
-    iam.gke.io/gcp-service-account: prometheus-to-sd@linki-wanchain.iam.gserviceaccount.com
+    iam.gke.io/gcp-service-account: prometheus-to-sd@allyoucanstake-dev.iam.gserviceaccount.com
 automountServiceAccountToken: false
