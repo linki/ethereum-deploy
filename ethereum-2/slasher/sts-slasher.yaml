@@ -19,12 +19,15 @@ spec:
       containers:
       - name: slasher
         image: gcr.io/prysmaticlabs/prysm/slasher:latest
+        imagePullPolicy: Always
         args:
         - --beacon-rpc-provider=beacon-chain:4000
         - --beacon-tls-cert=/etc/tls/ca.crt
         - --datadir=/var/lib/slasher
+        - --rpc-host=$(POD_IP)
         - --tls-key=/etc/tls/tls.key
         - --tls-cert=/etc/tls/tls.crt
+        - --monitoring-host=$(POD_IP)
         # enabling this requires --enable-new-state-mgmt in beacon-chain
         # - --enable-historical-detection
         ports:

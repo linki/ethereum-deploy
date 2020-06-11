@@ -19,6 +19,7 @@ spec:
       containers:
       - name: validator
         image: gcr.io/prysmaticlabs/prysm/validator:latest
+        imagePullPolicy: Always
         args:
         - --beacon-rpc-provider=beacon-chain:4000
         - --tls-cert=/etc/tls/ca.crt
@@ -26,6 +27,9 @@ spec:
         - --keymanageropts=/etc/ethereum/keymanageropts
         - --datadir=/var/lib/validator
         - --graffiti=AllYouCanStake.de
+        - --monitoring-host=$(POD_IP)
+        - --enable-protect-attester
+        - --enable-protect-proposer
         - --enable-external-slasher-protection
         - --slasher-rpc-provider=slasher:4002
         - --slasher-tls-cert=/etc/tls/ca.crt

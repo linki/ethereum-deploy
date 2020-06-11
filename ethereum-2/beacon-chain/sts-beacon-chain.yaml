@@ -19,6 +19,7 @@ spec:
       containers:
       - name: beacon-chain
         image: gcr.io/prysmaticlabs/prysm/beacon-chain:latest
+        imagePullPolicy: Always
         args:
         - --datadir=/var/lib/beacon-chain
         - --p2p-host-dns=ethereum-2.allyoucanstake.com
@@ -27,6 +28,7 @@ spec:
         - --rpc-host=$(POD_IP)
         - --tls-key=/etc/tls/tls.key
         - --tls-cert=/etc/tls/tls.crt
+        - --monitoring-host=$(POD_IP)
         - --enable-slasher
         - --slasher-provider=slasher:4002
         - --slasher-tls-cert=/etc/tls/ca.crt
