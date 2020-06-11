@@ -33,6 +33,11 @@ spec:
         - --enable-external-slasher-protection
         - --slasher-rpc-provider=slasher:4002
         - --slasher-tls-cert=/etc/tls/ca.crt
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         ports:
         - name: metrics
           containerPort: 8081

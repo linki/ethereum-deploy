@@ -30,6 +30,11 @@ spec:
         - --monitoring-host=$(POD_IP)
         # enabling this requires --enable-new-state-mgmt in beacon-chain
         # - --enable-historical-detection
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         ports:
         - name: rpc
           containerPort: 4002
