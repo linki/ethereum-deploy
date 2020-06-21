@@ -14,6 +14,9 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: validator
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8081'
     spec:
       serviceAccountName: validator
       containers:

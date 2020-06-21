@@ -12,6 +12,14 @@ spec:
   policyTypes:
   - Ingress
   ingress:
+  # allow prometheus to scrape the metrics endpoint
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+    ports:
+    - protocol: TCP
+      port: 8081
   # allow prometheus-to-sd to scrape the metrics endpoint
   - from:
     - podSelector:

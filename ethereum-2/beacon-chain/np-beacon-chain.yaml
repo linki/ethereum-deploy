@@ -47,6 +47,14 @@ spec:
     ports:
     - protocol: TCP
       port: 4000
+  # allow prometheus to scrape the metrics endpoint
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: prometheus
+    ports:
+    - protocol: TCP
+      port: 8080
   # allow prometheus-to-sd to scrape the metrics endpoint
   - from:
     - podSelector:
