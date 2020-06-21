@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: grafana
+  annotations:
+    iam.gke.io/gcp-service-account: grafana@allyoucanstake-dev.iam.gserviceaccount.com
+automountServiceAccountToken: false
