@@ -37,3 +37,51 @@ subjects:
 - kind: ServiceAccount
   name: external-dns
   namespace: ethereum-2
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: external-dns
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: external-dns
+spec:
+  displayName: ExternalDNS
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: external-dns
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: external-dns
+spec:
+  member: serviceAccount:external-dns@allyoucanstake-dev.iam.gserviceaccount.com
+  role: roles/dns.admin
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/allyoucanstake-dev
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: external-dns
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: external-dns
+spec:
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: external-dns
+  bindings:
+  - role: roles/iam.workloadIdentityUser
+    members:
+    - serviceAccount:allyoucanstake-dev.svc.id.goog[ethereum-2/external-dns]

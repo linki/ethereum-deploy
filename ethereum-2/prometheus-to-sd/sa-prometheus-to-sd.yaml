@@ -8,3 +8,51 @@ metadata:
   annotations:
     iam.gke.io/gcp-service-account: prometheus-to-sd@allyoucanstake-dev.iam.gserviceaccount.com
 automountServiceAccountToken: false
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: prometheus-to-sd
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: prometheus-to-sd
+spec:
+  displayName: Prometheus to Stackdriver
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: prometheus-to-sd
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: prometheus-to-sd
+spec:
+  member: serviceAccount:prometheus-to-sd@allyoucanstake-dev.iam.gserviceaccount.com
+  role: roles/monitoring.metricWriter
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/allyoucanstake-dev
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: prometheus-to-sd
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: prometheus-to-sd
+spec:
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: prometheus-to-sd
+  bindings:
+  - role: roles/iam.workloadIdentityUser
+    members:
+    - serviceAccount:allyoucanstake-dev.svc.id.goog[ethereum-2/prometheus-to-sd]
