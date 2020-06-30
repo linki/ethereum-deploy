@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: grafana-tls
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: grafana
+spec:
+  secretName: grafana-tls
+  dnsNames:
+  - grafana.allyoucanstake.com
+  issuerRef:
+    name: letsencrypt

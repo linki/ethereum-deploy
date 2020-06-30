@@ -19,6 +19,13 @@ spec:
       containers:
       - name: grafana
         image: docker.io/grafana/grafana:7.0.5
+        env:
+        - name: GF_SERVER_PROTOCOL
+          value: h2
+        - name: GF_SERVER_CERT_KEY
+          value: /etc/tls/tls.key
+        - name: GF_SERVER_CERT_FILE
+          value: /etc/tls/tls.crt
         ports:
         - name: http
           containerPort: 3000
@@ -30,12 +37,16 @@ spec:
             cpu: 100m
             memory: 100Mi
         volumeMounts:
+        - mountPath: /etc/tls
+          name: tls
+          readOnly: true
         - mountPath: /var/lib/grafana
           name: data
         readinessProbe:
           httpGet:
             path: /api/health
             port: http
+            scheme: HTTPS
           failureThreshold: 5
           initialDelaySeconds: 60
           periodSeconds: 10
@@ -45,6 +56,7 @@ spec:
           httpGet:
             path: /api/health
             port: http
+            scheme: HTTPS
           failureThreshold: 5
           initialDelaySeconds: 600
           periodSeconds: 60
@@ -59,6 +71,10 @@ spec:
       securityContext:
         fsGroup: 65534
       terminationGracePeriodSeconds: 300
+      volumes:
+      - name: tls
+        secret:
+          secretName: grafana-tls
   volumeClaimTemplates:
   - metadata:
       name: data

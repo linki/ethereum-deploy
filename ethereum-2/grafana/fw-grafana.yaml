@@ -1,0 +1,16 @@
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeFirewall
+metadata:
+  name: grafana
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: grafana
+spec:
+  allow:
+  - protocol: tcp
+    ports:
+    - "30300"
+  networkRef:
+    external: allyoucanstake-dev
+  targetServiceAccounts:
+  - external: allyoucanstake-dev@allyoucanstake-dev.iam.gserviceaccount.com
