@@ -20,9 +20,10 @@ spec:
           image: quay.io/jetstack/cert-manager-controller:v0.15.1
           args:
           - --namespace=ethereum-2
-          - --controllers=certificates,certificaterequests-issuer-ca,issuers
+          - --controllers=challenges,certificates,certificaterequests-issuer-acme,certificaterequests-issuer-ca,issuers,orders
           - --cluster-resource-namespace=$(POD_NAMESPACE)
           - --enable-certificate-owner-ref
+          - --issuer-ambient-credentials
           - --leader-elect=false
           - --v=2
           ports:

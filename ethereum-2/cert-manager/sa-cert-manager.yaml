@@ -5,6 +5,70 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: cert-manager
+  annotations:
+    iam.gke.io/gcp-service-account: cert-manager@allyoucanstake-dev.iam.gserviceaccount.com
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager-view
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+rules:
+  - apiGroups: ["cert-manager.io"]
+    resources: ["certificates", "certificaterequests", "issuers"]
+    verbs: ["get", "list", "watch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-view
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cert-manager-view
+subjects:
+  - name: cert-manager
+    kind: ServiceAccount
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager-edit
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+rules:
+  - apiGroups: ["cert-manager.io"]
+    resources: ["certificates", "certificaterequests", "issuers"]
+    verbs: ["create", "delete", "deletecollection", "patch", "update"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-edit
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cert-manager-edit
+subjects:
+  - name: cert-manager
+    kind: ServiceAccount
 
 ---
 
@@ -74,9 +138,6 @@ rules:
   - apiGroups: [""]
     resources: ["events"]
     verbs: ["create", "patch"]
-  - apiGroups: ["cert-manager.io"]
-    resources: ["certificaterequests"]
-    verbs: ["create", "delete", "deletecollection", "patch", "update"]
 
 ---
 
@@ -94,3 +155,152 @@ roleRef:
 subjects:
   - name: cert-manager
     kind: ServiceAccount
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: cert-manager-controller-orders
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+rules:
+  - apiGroups: ["acme.cert-manager.io"]
+    resources: ["orders", "orders/status"]
+    verbs: ["update"]
+  - apiGroups: ["acme.cert-manager.io"]
+    resources: ["orders", "challenges"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["cert-manager.io"]
+    resources: ["clusterissuers", "issuers"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["acme.cert-manager.io"]
+    resources: ["challenges"]
+    verbs: ["create", "delete"]
+  - apiGroups: ["acme.cert-manager.io"]
+    resources: ["orders/finalizers"]
+    verbs: ["update"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-controller-orders
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cert-manager-controller-orders
+subjects:
+  - name: cert-manager
+    kind: ServiceAccount
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: cert-manager-controller-challenges
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+rules:
+  - apiGroups: ["acme.cert-manager.io"]
+    resources: ["challenges", "challenges/status"]
+    verbs: ["update"]
+  - apiGroups: ["acme.cert-manager.io"]
+    resources: ["challenges"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["cert-manager.io"]
+    resources: ["issuers", "clusterissuers"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: ["extensions"]
+    resources: ["ingresses"]
+    verbs: ["get", "list", "watch", "create", "delete", "update"]
+  - apiGroups: ["acme.cert-manager.io"]
+    resources: ["challenges/finalizers"]
+    verbs: ["update"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-controller-challenges
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cert-manager-controller-challenges
+subjects:
+  - name: cert-manager
+    kind: ServiceAccount
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: cert-manager
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+spec:
+  displayName: CertManager
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: cert-manager
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+spec:
+  member: serviceAccount:cert-manager@allyoucanstake-dev.iam.gserviceaccount.com
+  role: roles/dns.admin
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/allyoucanstake-dev
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: cert-manager
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+spec:
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: cert-manager
+  bindings:
+  - role: roles/iam.workloadIdentityUser
+    members:
+    - serviceAccount:allyoucanstake-dev.svc.id.goog[ethereum-2/cert-manager]

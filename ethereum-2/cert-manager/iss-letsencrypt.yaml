@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: cert-manager
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: allyoucanstake+letsencrypt.org@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+    - dns01:
+        clouddns:
+          project: allyoucanstake-dev
