@@ -54,7 +54,7 @@ spec:
           timeoutSeconds: 30
         livenessProbe:
           httpGet:
-            path: /-/ready
+            path: /-/healthy
             port: metrics
           failureThreshold: 5
           initialDelaySeconds: 600
