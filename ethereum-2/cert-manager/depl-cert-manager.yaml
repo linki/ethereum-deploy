@@ -17,7 +17,7 @@ spec:
       serviceAccountName: cert-manager
       containers:
         - name: cert-manager
-          image: quay.io/jetstack/cert-manager-controller:v0.15.1
+          image: quay.io/jetstack/cert-manager-controller:v0.15.2
           args:
           - --namespace=ethereum-2
           - --controllers=challenges,certificates,certificaterequests-issuer-acme,certificaterequests-issuer-ca,issuers,orders
