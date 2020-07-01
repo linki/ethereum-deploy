@@ -6,7 +6,20 @@ metadata:
   labels:
     app.kubernetes.io/name: prometheus
 data:
+  alerting_rules.yml: |
+    groups:
+    - name: ethereum
+      rules:
+      - alert: EthereumDown
+        expr: sum(up{job="kubernetes-pods"}) < 3
+        for: 5m
+        annotations:
+          summary: "Some Ethereum component isn't running"
+
   prometheus.yml: |
+    rule_files:
+    - /etc/prometheus/alerting_rules.yml
+
     scrape_configs:
 
     - job_name: kubernetes-cadvisor

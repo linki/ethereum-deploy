@@ -37,6 +37,10 @@ spec:
           mountPath: /etc/prometheus/prometheus.yml
           subPath: prometheus.yml
           readOnly: true
+        - name: config
+          mountPath: /etc/prometheus/alerting_rules.yml
+          subPath: alerting_rules.yml
+          readOnly: true
         - mountPath: /var/lib/prometheus
           name: data
         readinessProbe:
