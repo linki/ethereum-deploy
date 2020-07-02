@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: flux
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: flux
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: flux
+    spec:
+      serviceAccountName: flux
+      containers:
+      - name: flux
+        image: docker.io/fluxcd/flux:1.19.0
+        args:
+        - --git-url=git@github.com:linki/ethereum-deploy
+        - --git-branch=master
+        - --git-path=ethereum-2
+        - --git-label=flux-sync
+        - --git-user=Flux automation
+        - --git-email=linki@users.noreply.github.com
+        - --git-readonly
+        - --k8s-secret-name=flux
+        - --sync-garbage-collection
+        - --registry-disable-scanning
+        - --listen-metrics=:3031
+        ports:
+        - name: api
+          containerPort: 3030
+        - name: metrics
+          containerPort: 3031
+        readinessProbe:
+          httpGet:
+            path: /api/flux/v6/identity.pub
+            port: api
+          failureThreshold: 5
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /api/flux/v6/identity.pub
+            port: api
+          failureThreshold: 5
+          initialDelaySeconds: 5
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 30
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 20m
+            memory: 64Mi
+        volumeMounts:
+        - name: git-key
+          mountPath: /etc/fluxd/ssh
+          readOnly: true
+      volumes:
+      - name: git-key
+        secret:
+          secretName: flux
+          defaultMode: 0400
