@@ -24,6 +24,7 @@ spec:
         image: gcr.io/prysmaticlabs/prysm/beacon-chain:latest
         imagePullPolicy: Always
         args:
+        - --altona
         - --datadir=/var/lib/beacon-chain
         - --p2p-host-dns=ethereum-2.allyoucanstake.com
         - --p2p-tcp-port=31300
