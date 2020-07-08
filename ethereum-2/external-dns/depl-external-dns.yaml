@@ -62,5 +62,3 @@ spec:
           readOnlyRootFilesystem: true
           capabilities:
             drop: ["ALL"]
-      securityContext:
-        fsGroup: 65534
