@@ -5,6 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: flux
+    app.kubernetes.io/version: "1.19.0"
 spec:
   strategy:
     type: Recreate
@@ -15,6 +16,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: flux
+        app.kubernetes.io/version: "1.19.0"
     spec:
       serviceAccountName: flux
       containers:

@@ -5,6 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: slasher
+    app.kubernetes.io/version: latest
 spec:
   serviceName: slasher
   selector:
@@ -14,6 +15,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: slasher
+        app.kubernetes.io/version: latest
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8082'

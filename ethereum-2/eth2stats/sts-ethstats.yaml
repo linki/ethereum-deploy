@@ -5,6 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: eth2stats
+    app.kubernetes.io/version: tls-cert
 spec:
   serviceName: eth2stats
   selector:
@@ -14,6 +15,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: eth2stats
+        app.kubernetes.io/version: tls-cert
     spec:
       serviceAccountName: eth2stats
       containers:

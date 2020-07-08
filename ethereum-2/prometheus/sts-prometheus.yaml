@@ -5,6 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: prometheus
+    app.kubernetes.io/version: v2.19.2
 spec:
   serviceName: prometheus
   selector:
@@ -14,6 +15,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: prometheus
+        app.kubernetes.io/version: v2.19.2
     spec:
       serviceAccountName: prometheus
       containers:
