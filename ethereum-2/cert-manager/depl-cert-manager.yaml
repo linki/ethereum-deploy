@@ -5,6 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: cert-manager
+    app.kubernetes.io/version: v0.15.2
 spec:
   selector:
     matchLabels:
@@ -13,6 +14,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: cert-manager
+        app.kubernetes.io/version: v0.15.2
     spec:
       serviceAccountName: cert-manager
       containers:
