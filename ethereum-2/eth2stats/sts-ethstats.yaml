@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: eth2stats
-    app.kubernetes.io/version: tls-cert
+    app.kubernetes.io/version: latest
 spec:
   serviceName: eth2stats
   selector:
@@ -15,12 +15,13 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: eth2stats
-        app.kubernetes.io/version: tls-cert
+        app.kubernetes.io/version: latest
     spec:
       serviceAccountName: eth2stats
       containers:
       - name: eth2stats
-        image: quay.io/linki/eth2stats-client:tls-cert
+        image: docker.io/alethio/eth2stats-client:latest
+        imagePullPolicy: Always
         args:
         - run
         - --eth2stats.node-name=AllYouCanStake.de
