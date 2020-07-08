@@ -20,7 +20,8 @@ spec:
       serviceAccountName: eth2stats
       containers:
       - name: eth2stats
-        image: quay.io/linki/eth2stats-client:tls-cert
+        image: docker.io/alethio/eth2stats-client:latest
+        imagePullPolicy: Always
         args:
         - run
         - --eth2stats.node-name=AllYouCanStake.de
