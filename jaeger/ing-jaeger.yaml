@@ -1,0 +1,11 @@
+# apiVersion: networking.k8s.io/v1beta1
+# kind: Ingress
+# metadata:
+#   name: jaeger-query
+#   namespace: ethereum-2
+#   labels:
+#     app.kubernetes.io/name: jaeger
+# spec:
+#   backend:
+#     serviceName: jaeger-query
+#     servicePort: 16686

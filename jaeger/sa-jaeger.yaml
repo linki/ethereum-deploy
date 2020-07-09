@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jaeger
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: jaeger
