@@ -1,5 +1,11 @@
 {
-  "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
-  }
+  "regexManagers": [
+    {
+      "fileMatch": ["\\.yaml$"],
+      "matchStrings": [
+        "app\\.kubernetes\\.io\\/version: [\"]?(?<currentValue>.*?)[\"]?\n(?s).*image: [\"]?(?<depName>.*?):.*?[\"]?\n"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
