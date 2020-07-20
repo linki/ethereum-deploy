@@ -21,7 +21,7 @@ spec:
       serviceAccountName: flux
       containers:
       - name: flux
-        image: docker.io/fluxcd/flux:1.19.0
+        image: "docker.io/fluxcd/flux:1.19.0"
         args:
         - --git-url=git@github.com:linki/ethereum-deploy
         - --git-branch=master
