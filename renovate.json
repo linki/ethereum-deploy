@@ -3,7 +3,9 @@
     "enabled": false
   },
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "fileMatch": [
+      "\\.yaml$"
+    ]
   },
   "regexManagers": [
     {
