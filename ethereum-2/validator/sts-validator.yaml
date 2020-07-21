@@ -26,6 +26,7 @@ spec:
         image: gcr.io/prysmaticlabs/prysm/validator:latest
         imagePullPolicy: Always
         args:
+        - --altona
         - --beacon-rpc-provider=beacon-chain:4000
         - --tls-cert=/etc/tls/ca.crt
         - --keymanager=keystore
@@ -33,8 +34,6 @@ spec:
         - --datadir=/var/lib/validator
         - --graffiti=AllYouCanStake.de
         - --monitoring-host=$(POD_IP)
-        - --enable-protect-attester
-        - --enable-protect-proposer
         - --enable-external-slasher-protection
         - --slasher-rpc-provider=slasher:4002
         - --slasher-tls-cert=/etc/tls/ca.crt
