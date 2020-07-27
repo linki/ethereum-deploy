@@ -26,7 +26,7 @@ spec:
         image: gcr.io/prysmaticlabs/prysm/validator:latest
         imagePullPolicy: Always
         args:
-        - --altona
+        - --medalla
         - --beacon-rpc-provider=beacon-chain:4000
         - --tls-cert=/etc/tls/ca.crt
         - --keymanager=keystore

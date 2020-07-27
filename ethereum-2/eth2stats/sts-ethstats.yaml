@@ -26,7 +26,7 @@ spec:
         - run
         - --eth2stats.node-name=AllYouCanStake.de
         - --data.folder=/var/lib/eth2stats
-        - --eth2stats.addr=grpc.altona.eth2stats.io:443
+        - --eth2stats.addr=grpc.medalla.eth2stats.io:443
         - --eth2stats.tls=true
         - --beacon.type=prysm
         - --beacon.addr=beacon-chain:4000
