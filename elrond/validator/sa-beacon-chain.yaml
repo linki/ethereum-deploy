@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: elrond
+  namespace: elrond
+  labels:
+    app.kubernetes.io/name: elrond
+automountServiceAccountToken: false

@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elrond
+  namespace: elrond
+  labels:
+    app.kubernetes.io/name: elrond
+    app.kubernetes.io/version: v1.0.141
+spec:
+  serviceName: elrond
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: elrond
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: elrond
+        app.kubernetes.io/version: v1.0.141
+    spec:
+      serviceAccountName: elrond
+      containers:
+      - name: elrond
+        image: docker.io/elrondnetwork/elrond-go-node:v1.0.141
+        args:
+        - --validator-key-pem-file /etc/elrond/elrond-nodes/node-0/config/validatorKey.pe
+
+        - --medalla
+        - --datadir=/var/lib/elrond
+        - --p2p-host-dns=elrond.allyoucanstake.com
+        - --p2p-tcp-port=31300
+        - --p2p-udp-port=31200
+        - --rpc-host=$(POD_IP)
+        - --tls-key=/etc/tls/tls.key
+        - --tls-cert=/etc/tls/tls.crt
+        - --monitoring-host=$(POD_IP)
+        - --enable-slasher
+        - --slasher-provider=slasher:4002
+        - --slasher-tls-cert=/etc/tls/ca.crt
+        ports:
+        - name: rpc
+          containerPort: 4000
+        - name: metrics
+          containerPort: 8080
+        - name: p2p
+          containerPort: 31300
+        - name: discv5
+          containerPort: 31200
+          protocol: UDP
+        resources:
+          requests:
+            cpu: 250m
+            memory: 1Gi
+          limits:
+            cpu: 500m
+            memory: 2Gi
+        volumeMounts:
+        - mountPath: /etc/tls
+          name: tls
+          readOnly: true
+        - mountPath: /var/lib/elrond
+          name: data
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: metrics
+          failureThreshold: 5
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: metrics
+          failureThreshold: 5
+          initialDelaySeconds: 600
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 30
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+      securityContext:
+        fsGroup: 65534
+      terminationGracePeriodSeconds: 300
+      volumes:
+      - name: tls
+        secret:
+          secretName: elrond-tls
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      storageClassName: standard-rwo
+      accessModes:
+      - ReadWriteOnce
+      volumeMode: Filesystem
+      resources:
+        requests:
+          storage: 20Gi
