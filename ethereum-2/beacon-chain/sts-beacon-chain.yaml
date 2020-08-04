@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: beacon-chain
-    app.kubernetes.io/version: v1.0.0-alpha.18
+    app.kubernetes.io/version: v1.0.0-alpha.16-114-gf7c8ae5aa
 spec:
   serviceName: beacon-chain
   selector:
@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: beacon-chain
-        app.kubernetes.io/version: v1.0.0-alpha.18
+        app.kubernetes.io/version: v1.0.0-alpha.16-114-gf7c8ae5aa
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8080'
@@ -23,7 +23,7 @@ spec:
       serviceAccountName: beacon-chain
       containers:
       - name: beacon-chain
-        image: gcr.io/prysmaticlabs/prysm/beacon-chain:v1.0.0-alpha.18
+        image: gcr.io/prysmaticlabs/prysm/beacon-chain:v1.0.0-alpha.16-114-gf7c8ae5aa
         args:
         - --medalla
         - --datadir=/var/lib/beacon-chain
