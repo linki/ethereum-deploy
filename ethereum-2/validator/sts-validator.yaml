@@ -25,17 +25,16 @@ spec:
       - name: validator
         image: gcr.io/prysmaticlabs/prysm/validator:v1.0.0-alpha.18
         args:
-        - --medalla
         - --beacon-rpc-provider=beacon-chain:4000
         - --tls-cert=/etc/tls/ca.crt
-        - --keymanager=keystore
-        - --keymanageropts=/etc/ethereum/keymanageropts
+        - --wallet-dir=/etc/ethereum/keystore
+        - --wallet-password-file=/etc/ethereum/keystore/derived/password.txt
         - --datadir=/var/lib/validator
         - --graffiti=AllYouCanStake.de
         - --monitoring-host=$(POD_IP)
-        - --enable-external-slasher-protection
-        - --slasher-rpc-provider=slasher:4002
-        - --slasher-tls-cert=/etc/tls/ca.crt
+        # - --enable-external-slasher-protection
+        # - --slasher-rpc-provider=slasher:4002
+        # - --slasher-tls-cert=/etc/tls/ca.crt
         env:
         - name: POD_IP
           valueFrom:
@@ -52,7 +51,7 @@ spec:
             cpu: 100m
             memory: 256Mi
         volumeMounts:
-        - mountPath: /etc/ethereum
+        - mountPath: /etc/ethereum/keystore/derived
           name: keystore
           readOnly: true
         - mountPath: /etc/tls

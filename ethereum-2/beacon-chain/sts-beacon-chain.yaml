@@ -25,7 +25,6 @@ spec:
       - name: beacon-chain
         image: gcr.io/prysmaticlabs/prysm/beacon-chain:v1.0.0-alpha.18
         args:
-        - --medalla
         - --datadir=/var/lib/beacon-chain
         - --p2p-host-dns=ethereum-2.allyoucanstake.com
         - --p2p-tcp-port=31300
@@ -34,6 +33,7 @@ spec:
         - --tls-key=/etc/tls/tls.key
         - --tls-cert=/etc/tls/tls.crt
         - --monitoring-host=$(POD_IP)
+        - --disable-grpc-gateway # to avoid /healthz reporting unhealthy
         - --enable-slasher
         - --slasher-provider=slasher:4002
         - --slasher-tls-cert=/etc/tls/ca.crt
