@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: cert-manager
-    app.kubernetes.io/version: v0.16.0
+    app.kubernetes.io/version: v0.16.1
 spec:
   selector:
     matchLabels:
@@ -14,12 +14,12 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: cert-manager
-        app.kubernetes.io/version: v0.16.0
+        app.kubernetes.io/version: v0.16.1
     spec:
       serviceAccountName: cert-manager
       containers:
         - name: cert-manager
-          image: quay.io/jetstack/cert-manager-controller:v0.16.0
+          image: quay.io/jetstack/cert-manager-controller:v0.16.1
           args:
           - --namespace=ethereum-2
           - --controllers=challenges,certificates,certificaterequests-issuer-acme,certificaterequests-issuer-ca,issuers,orders
