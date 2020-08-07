@@ -8,13 +8,54 @@ metadata:
 data:
   alerting_rules.yml: |
     groups:
-    - name: ethereum
+    - name: generic
       rules:
-      - alert: EthereumDown
-        expr: sum(up{job="kubernetes-pods"}) < 3
+      - alert: PodDown
+        expr: up == 0
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: "Pod {{ $labels.kubernetes_pod_name }} down"
+          description: "{{ $labels.kubernetes_pod_name }} of application {{ $labels.app_kubernetes_io_name }} has been down for more than 5 minutes."
+
+      - alert: ContainerNotRunning
+        expr: |
+          kube_pod_container_status_running != 1
         for: 5m
         annotations:
-          summary: "Some Ethereum component isn't running"
+          summary: "Container {{ $labels.container }} not running"
+          description: "{{ $labels.container }} of Pod {{ $labels.pod }} has been down for more than 5 minutes."
+
+    - name: kube-state-metrics
+      rules:
+      - alert: KubeStateMetricsListErrors
+        annotations:
+          message: kube-state-metrics is experiencing errors at an elevated rate in list
+            operations. This is likely causing it to not be able to expose metrics about
+            Kubernetes objects correctly or at all.
+        expr: |
+          (sum(rate(kube_state_metrics_list_total{job="kube-state-metrics",result="error"}[5m]))
+            /
+          sum(rate(kube_state_metrics_list_total{job="kube-state-metrics"}[5m])))
+          > 0.01
+        for: 15m
+        labels:
+          severity: critical
+      - alert: KubeStateMetricsWatchErrors
+        annotations:
+          message: kube-state-metrics is experiencing errors at an elevated rate in watch
+            operations. This is likely causing it to not be able to expose metrics about
+            Kubernetes objects correctly or at all.
+        expr: |
+          (sum(rate(kube_state_metrics_watch_total{job="kube-state-metrics",result="error"}[5m]))
+            /
+          sum(rate(kube_state_metrics_watch_total{job="kube-state-metrics"}[5m])))
+          > 0.01
+        for: 15m
+        labels:
+          severity: critical
+
 
   prometheus.yml: |
     rule_files:
