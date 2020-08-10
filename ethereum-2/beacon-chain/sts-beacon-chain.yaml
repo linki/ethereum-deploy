@@ -37,6 +37,8 @@ spec:
         - --enable-slasher
         - --slasher-provider=slasher:4002
         - --slasher-tls-cert=/etc/tls/ca.crt
+        - --enable-tracing
+        - --tracing-endpoint=http://jaeger-collector:14268/api/traces
         env:
         - name: POD_IP
           valueFrom:

@@ -32,6 +32,8 @@ spec:
         - --tls-key=/etc/tls/tls.key
         - --tls-cert=/etc/tls/tls.crt
         - --monitoring-host=$(POD_IP)
+        - --enable-tracing
+        - --tracing-endpoint=http://jaeger-collector:14268/api/traces
         # enabling this requires --enable-new-state-mgmt in beacon-chain
         # - --enable-historical-detection
         env:

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jaeger-ui-configuration
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: jaeger
+data:
+  ui: '{"menu":[{"items":[{"label":"Documentation","url":"https://www.jaegertracing.io/docs/1.18"}],"label":"About"}]}'
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jaeger-sampling-configuration
+  namespace: ethereum-2
+  labels:
+    app.kubernetes.io/name: jaeger
+data:
+  sampling: '{"default_strategy":{"param":1,"type":"probabilistic"}}'
