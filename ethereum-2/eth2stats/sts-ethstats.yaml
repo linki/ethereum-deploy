@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: eth2stats
-    app.kubernetes.io/version: latest
+    app.kubernetes.io/version: v0.0.12
 spec:
   serviceName: eth2stats
   selector:
@@ -15,12 +15,12 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: eth2stats
-        app.kubernetes.io/version: latest
+        app.kubernetes.io/version: v0.0.12
     spec:
       serviceAccountName: eth2stats
       containers:
       - name: eth2stats
-        image: docker.io/alethio/eth2stats-client:latest
+        image: docker.io/alethio/eth2stats-client:v0.0.12
         imagePullPolicy: Always
         args:
         - run
