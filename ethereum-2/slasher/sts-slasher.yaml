@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: slasher
-    app.kubernetes.io/version: v1.0.0-alpha.20
+    app.kubernetes.io/version: v1.0.0-alpha.22
 spec:
   serviceName: slasher
   selector:
@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: slasher
-        app.kubernetes.io/version: v1.0.0-alpha.20
+        app.kubernetes.io/version: v1.0.0-alpha.22
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8082'
@@ -23,7 +23,7 @@ spec:
       serviceAccountName: slasher
       containers:
       - name: slasher
-        image: gcr.io/prysmaticlabs/prysm/slasher:v1.0.0-alpha.20
+        image: gcr.io/prysmaticlabs/prysm/slasher:v1.0.0-alpha.22
         args:
         - --beacon-rpc-provider=beacon-chain:4000
         - --beacon-tls-cert=/etc/tls/ca.crt
