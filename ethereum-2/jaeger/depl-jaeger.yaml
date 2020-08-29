@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: jaeger
-    app.kubernetes.io/version: "1.18.1"
+    app.kubernetes.io/version: "1.19.2"
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: jaeger
-        app.kubernetes.io/version: "1.18.1"
+        app.kubernetes.io/version: "1.19.2"
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "14269"
@@ -28,7 +28,7 @@ spec:
           value: memory
         - name: COLLECTOR_ZIPKIN_HTTP_PORT
           value: "9411"
-        image: docker.io/jaegertracing/all-in-one:1.18.1
+        image: docker.io/jaegertracing/all-in-one:1.19.2
         livenessProbe:
           failureThreshold: 5
           httpGet:
