@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: validator
-    app.kubernetes.io/version: v1.0.0-alpha.23
+    app.kubernetes.io/version: v1.0.0-alpha.22-12-g27c8402ae
 spec:
   serviceName: validator
   selector:
@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: validator
-        app.kubernetes.io/version: v1.0.0-alpha.23
+        app.kubernetes.io/version: v1.0.0-alpha.22-12-g27c8402ae
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8081'
@@ -23,7 +23,7 @@ spec:
       serviceAccountName: validator
       containers:
       - name: validator
-        image: gcr.io/prysmaticlabs/prysm/validator:v1.0.0-alpha.23
+        image: gcr.io/prysmaticlabs/prysm/validator:v1.0.0-alpha.22-12-g27c8402ae
         args:
         - --beacon-rpc-provider=beacon-chain:4000
         - --tls-cert=/etc/tls/ca.crt
