@@ -25,6 +25,7 @@ spec:
       - name: slasher
         image: gcr.io/prysmaticlabs/prysm/slasher:v1.0.0-beta.1
         args:
+        - --accept-terms-of-use
         - --beacon-rpc-provider=beacon-chain:4000
         - --beacon-tls-cert=/etc/tls/ca.crt
         - --datadir=/var/lib/slasher

@@ -25,6 +25,7 @@ spec:
       - name: validator
         image: gcr.io/prysmaticlabs/prysm/validator:v1.0.0-beta.1
         args:
+        - --accept-terms-of-use
         - --beacon-rpc-provider=beacon-chain:4000
         - --tls-cert=/etc/tls/ca.crt
         - --wallet-dir=/etc/ethereum/keystore
