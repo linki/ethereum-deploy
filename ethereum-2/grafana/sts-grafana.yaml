@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: grafana
-    app.kubernetes.io/version: "7.3.5"
+    app.kubernetes.io/version: "7.3.6"
 spec:
   serviceName: grafana
   selector:
@@ -15,12 +15,12 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: grafana
-        app.kubernetes.io/version: "7.3.5"
+        app.kubernetes.io/version: "7.3.6"
     spec:
       serviceAccountName: grafana
       containers:
       - name: grafana
-        image: docker.io/grafana/grafana:7.3.5
+        image: docker.io/grafana/grafana:7.3.6
         env:
         - name: GF_SERVER_PROTOCOL
           value: h2
