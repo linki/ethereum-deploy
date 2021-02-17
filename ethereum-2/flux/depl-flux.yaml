@@ -5,7 +5,7 @@ metadata:
   namespace: ethereum-2
   labels:
     app.kubernetes.io/name: flux
-    app.kubernetes.io/version: "1.21.1"
+    app.kubernetes.io/version: "1.21.2"
 spec:
   strategy:
     type: Recreate
@@ -16,12 +16,12 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: flux
-        app.kubernetes.io/version: "1.21.1"
+        app.kubernetes.io/version: "1.21.2"
     spec:
       serviceAccountName: flux
       containers:
       - name: flux
-        image: docker.io/fluxcd/flux:1.21.1
+        image: docker.io/fluxcd/flux:1.21.2
         args:
         - --git-url=git@github.com:linki/ethereum-deploy
         - --git-branch=master
